@@ -1,0 +1,70 @@
+// Here we inject maven local repository that is used for integration testing on CI
+
+def ktorRepositoryDir = file("$buildDir/m2")
+
+if (ktorRepositoryDir.exists()) {
+    allprojects {
+        repositories {
+            maven { url ktorRepositoryDir.absolutePath }
+        }
+    }
+} else {
+   allprojects {
+        repositories {
+            mavenLocal()
+        }
+   }
+}
+
+// --------------------------
+
+// Here we invoke configure all the maven samples so that doing "gradlew build" builds all the samples
+// including Maven ones and "gradlew :<sample-name>:run" works for all of them, while still keeping Maven
+// sample directories fully standalone
+
+def mavenSettings = file("settings.xml")
+
+configure(subprojects.findAll { it.name.startsWith("maven-") }) {
+    def mvnw = System.getProperty('os.name').toLowerCase(Locale.US).contains('windows') ?
+            [ 'cmd', '/c', 'mvnw.cmd' ] : [ './mvnw' ]
+
+    mvnw += "-Dktor.version=$ktor_version"
+
+    if (ktorRepositoryDir.exists()) {
+        mvnw += "-Dktor.repository.url=file:///${ktorRepositoryDir.absolutePath}"
+        mvnw += ['-s', mavenSettings.absolutePath]
+    }
+
+    task build(type: Exec) {
+        commandLine mvnw + [ 'package' ]
+    }
+
+    task clean(type: Exec) {
+        commandLine mvnw + [ 'clean' ]
+    }
+
+    if (it.name.contains("appengine")) {
+        task run(type: Exec) {
+            commandLine mvnw + [ 'appengine:run' ]
+        }
+    } else {
+        task run(type: Exec) {
+            commandLine mvnw + [ 'compile', 'exec:java' ]
+        }
+    }
+}
+
+subprojects {
+    buildscript {
+        repositories {
+            google()
+            jcenter()
+        }
+        dependencies {
+            classpath "com.android.tools.build:gradle:3.1.3"
+        }
+    }
+}
+
+group 'com.rovioli'
+version '1.0-SNAPSHOT'
