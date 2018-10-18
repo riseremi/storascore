@@ -1,6 +1,6 @@
-package com.rovioli
+package com.rovioli.runmaboi
 
-import com.rovioli.model.Repository
+import com.rovioli.runmaboi.model.Repository
 import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.features.*

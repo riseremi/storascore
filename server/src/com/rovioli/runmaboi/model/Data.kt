@@ -1,4 +1,4 @@
-package com.rovioli.model
+package com.rovioli.runmaboi.model
 
 data class Record(val apiKey: String?, val score: Score)
 
