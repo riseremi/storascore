@@ -2,7 +2,7 @@ package com.rovioli.runmaboi
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.rovioli.runmaboi.model.Record
+import com.rovioli.runmaboi.model.Request
 import com.rovioli.runmaboi.model.Repository
 import io.ktor.application.Application
 import io.ktor.application.call
@@ -23,8 +23,8 @@ class Router(private val repository: Repository) {
     fun start(application: Application) {
         application.routing {
             post("/save") {
-                // TODO: can we use call.receive<Record>() instead?
-                val record = gson.fromJson<Record>(call.receiveText(), Record::class.java)
+                // TODO: can we use call.receive<Request>() instead?
+                val record = gson.fromJson<Request>(call.receiveText(), Request::class.java)
                 println("recorod is $record")
                 val code = validate(record)
                 if (code == Accepted) {
@@ -40,7 +40,7 @@ class Router(private val repository: Repository) {
         }
     }
 
-    private fun validate(record: Record): HttpStatusCode = with(record) {
+    private fun validate(request: Request): HttpStatusCode = with(request) {
         if (apiKey == null || score.name.isEmpty()) return UnprocessableEntity
         if (apiKey.isEmpty()) return Unauthorized
         // if (!keyRegistered(apiKey)) return Forbidden
