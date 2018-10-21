@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 /**
  * Pretty ugly helper, but enough for its purpose.
  */
-class RequestAndScoreDatabaseHelper {
+class RequestAndScoreDatabaseHelper : RequestAndScoreDao {
     fun connect() {
         Database.connect(
                 url      = "jdbc:h2:mem:test",
@@ -21,22 +21,22 @@ class RequestAndScoreDatabaseHelper {
         SchemaUtils.create(Scores)
     }
 
-    fun insertScore(data: Score) = transaction {
-        Scores.insert {
-            it[name]  = data.name
+    override fun insertScore(data: Score) = transaction {
+        Scores.insertAndGetId {
+            it[name] = data.name
             it[score] = data.score
-        }
+        }.value
     }
 
-    fun insertApiKey(key: String) = transaction {
-        Clients.insert { it[apiKey] = key }
+    override fun insertApiKey(key: String) = transaction {
+        Clients.insertAndGetId { it[apiKey] = key }.value
     }
 
-    fun findApiKey(key: String) = transaction {
+    override fun findApiKey(key: String) = transaction {
         Clients.select { Clients.apiKey eq key }.toString()
     }
 
-    fun readHighScores(amount: Int) = transaction {
+    override fun readHighScores(amount: Int) = transaction {
         Scores.slice(Scores.score)
                 .selectAll()
                 .fetchSize(amount)

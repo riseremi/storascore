@@ -33,8 +33,13 @@ class Router(private val repository: Repository) {
                 call.respond(code, "Error!\n")
             }
         }
+
         get("/alien") {
             call.respondText(repository.getAlien())
+        }
+
+        get("/highscores") {
+            call.respondText(gson.toJson(repository.lastScores()))
         }
     }
 

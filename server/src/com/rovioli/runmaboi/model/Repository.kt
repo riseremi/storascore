@@ -4,11 +4,11 @@ class Repository(private val helper: RequestAndScoreDatabaseHelper) {
 
     fun putScore(score: Score) = helper.insertScore(score)
 
-    fun lastScores(last: Int = 3) = helper.readHighScores(last)
+    fun lastScores(last: Int = 5) = helper.readHighScores(last)
 
-    fun checkApiKey(apiKey: String) = helper.findApiKey(apiKey)
+    fun register(apiKey: String) = helper.insertApiKey(apiKey)
 
-    fun registerApiKey(apiKey: String) = helper.insertApiKey(apiKey)
+    fun isRegistered(apiKey: String) = helper.findApiKey(apiKey).isNotEmpty()
 
     fun getAlien() = """
                        ;;;;;;iiiii;;
