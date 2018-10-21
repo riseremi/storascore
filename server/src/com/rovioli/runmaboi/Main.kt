@@ -1,11 +1,13 @@
 package com.rovioli.runmaboi
 
 import com.rovioli.runmaboi.model.Repository
+import com.rovioli.runmaboi.model.RequestAndScoreDatabaseHelper
 import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.features.*
 
-private val repository = Repository()
+private val helper = RequestAndScoreDatabaseHelper()
+private val repository = Repository(helper)
 private val router = Router(repository)
 
 fun Application.main() {
@@ -20,5 +22,7 @@ fun Application.main() {
     // For each GET header, adds an automatic HEAD handler (checks the headers of the requests
     // without actually getting the payload to be more efficient about resources)
     install(AutoHeadResponse)
+    helper.connect()
+    helper.createTables()
     router.start(this)
 }

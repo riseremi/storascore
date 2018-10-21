@@ -36,10 +36,11 @@ class RequestAndScoreDatabaseHelper {
         Clients.select { Clients.apiKey eq key }.toString()
     }
 
-    fun readScores(amount: Int) = transaction {
-        Scores.selectAll()
+    fun readHighScores(amount: Int) = transaction {
+        Scores.slice(Scores.score)
+                .selectAll()
                 .fetchSize(amount)
-                .orderBy(Scores.score)
+                .orderBy(Scores.score, isAsc = false)
                 .toList()
     }
 }

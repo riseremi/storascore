@@ -1,21 +1,17 @@
 package com.rovioli.runmaboi.model
 
-class Repository {
+class Repository(private val helper: RequestAndScoreDatabaseHelper) {
 
-    fun findApiKey(apiKey: String) {
+    fun putScore(score: Score) = helper.insertScore(score)
 
-    }
+    fun lastScores(last: Int = 3) = helper.readHighScores(last)
 
-    fun findScore(name: String) {
+    fun checkApiKey(apiKey: String) = helper.findApiKey(apiKey)
 
-    }
-
-    fun putScore(score: Score) {
-
-    }
+    fun registerApiKey(apiKey: String) = helper.insertApiKey(apiKey)
 
     fun getAlien() = """
-                        ;;;;;;iiiii;;
+                       ;;;;;;iiiii;;
                  i!!!!!!!!!!!!!!!~{:!!!!i
              i!~!!))!!!!!!!!!!!!!!!!!!!!!!!!
           i!!!{!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!i
@@ -31,7 +27,7 @@ class Repository {
 ~~'~{!!!!!!!!!$$!!$$!!!!!$$!!!!$$!!!!!!!!!!$!!!!!!!!:'~
 {-{)!!{!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:!
 `!!!!{!~!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!':!!!
-' {!!!{>)`!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)!~..
+' {!!!{>)`!!!!!!!I AM AN ALIEN!!!!!!!!!!!!!!!!!!!!!!!)!~..
 :!{!!!{!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -!!:
     ~:!4~/!!!!!!!!!!!!!!!!!!!~!!!!!!!!!!!!!!!!!!!!!!!!!!
      :~!!~)(!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
