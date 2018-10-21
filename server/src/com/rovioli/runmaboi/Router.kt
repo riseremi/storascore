@@ -20,23 +20,21 @@ import io.ktor.routing.routing
 private val gson: Gson = GsonBuilder().create()
 
 class Router(private val repository: Repository) {
-    fun start(application: Application) {
-        application.routing {
-            post("/save") {
-                // TODO: can we use call.receive<Request>() instead?
-                val record = gson.fromJson<Request>(call.receiveText(), Request::class.java)
-                println("recorod is $record")
-                val code = validate(record)
-                if (code == Accepted) {
-                    repository.putScore(record.score)
-                    call.respond(code, "Adding!\n")
-                } else {
-                    call.respond(code, "Error!\n")
-                }
+    fun start(application: Application) = application.routing {
+        post("/save") {
+            // TODO: can we use call.receive<Request>() instead?
+            val record = gson.fromJson<Request>(call.receiveText(), Request::class.java)
+            println("recorod is $record")
+            val code = validate(record)
+            if (code == Accepted) {
+                repository.putScore(record.score)
+                call.respond(code, "Adding!\n")
+            } else {
+                call.respond(code, "Error!\n")
             }
-            get("/alien") {
-                call.respondText(repository.getAlien())
-            }
+        }
+        get("/alien") {
+            call.respondText(repository.getAlien())
         }
     }
 
