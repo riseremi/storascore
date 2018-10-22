@@ -1,6 +1,6 @@
 package com.rovioli.runmaboi.model
 
-class Repository(private val helper: RequestAndScoreDatabaseHelper) {
+class Repository(private val helper: RequestAndScoreDao) {
 
     fun putScore(score: Score) = helper.insertScore(score)
 
