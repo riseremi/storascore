@@ -37,10 +37,13 @@ class RequestAndScoreDatabaseHelper : RequestAndScoreDao {
     }
 
     override fun readHighScores(amount: Int) = transaction {
-        Scores.slice(Scores.score)
-                .selectAll()
+        val scores = mutableListOf<Score>()
+        Scores.selectAll()
                 .fetchSize(amount)
                 .orderBy(Scores.score, isAsc = false)
-                .toList()
+                .forEach {
+                    scores.add(Score(it[Scores.name], it[Scores.score]))
+                }
+        scores
     }
 }

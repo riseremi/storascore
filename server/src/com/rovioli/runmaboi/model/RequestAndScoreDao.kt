@@ -1,7 +1,5 @@
 package com.rovioli.runmaboi.model
 
-import org.jetbrains.exposed.sql.ResultRow
-
 interface RequestAndScoreDao {
     fun insertScore(data: Score): Int
 
@@ -9,5 +7,5 @@ interface RequestAndScoreDao {
 
     fun findApiKey(key: String): String
 
-    fun readHighScores(amount: Int): List<ResultRow>
+    fun readHighScores(amount: Int): List<Score>
 }
