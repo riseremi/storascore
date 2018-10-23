@@ -57,7 +57,7 @@ class Router(private val repository: Repository) {
 
     private suspend fun register(call: ApplicationCall) {
         if (canGenerateNewKey()) {
-            call.respond(HttpStatusCode.OK, "St0bstring4)ogjabod2")
+            call.respond(HttpStatusCode.OK, generate())
         } else {
             call.respond(HttpStatusCode.RequestTimeout, "Try to register tomorrow")
         }
