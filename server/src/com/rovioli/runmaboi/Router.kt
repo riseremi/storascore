@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import com.rovioli.runmaboi.model.Request
 import com.rovioli.runmaboi.model.Repository
 import io.ktor.application.Application
+import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.HttpStatusCode.Companion.Accepted
@@ -41,6 +42,10 @@ class Router(private val repository: Repository) {
         get("/highscores") {
             call.respondText(gson.toJson(repository.lastScores()))
         }
+
+        get("/registerme") {
+            register(call)
+        }
     }
 
     private fun validate(request: Request): HttpStatusCode = with(request) {
@@ -49,4 +54,14 @@ class Router(private val repository: Repository) {
         // if (!keyRegistered(apiKey)) return Forbidden
         return Accepted
     }
+
+    private suspend fun register(call: ApplicationCall) {
+        if (canGenerateNewKey()) {
+            call.respond(HttpStatusCode.OK, "St0bstring4)ogjabod2")
+        } else {
+            call.respond(HttpStatusCode.RequestTimeout, "Try to register tomorrow")
+        }
+    }
+
+    private fun canGenerateNewKey() = true
 }
