@@ -1,6 +1,6 @@
 package com.rovioli.runmaboi.model
 
-import com.rovioli.runmaboi.API_KEY_LENGTH
+import com.rovioli.runmaboi.util.API_KEY_LENGTH
 import org.jetbrains.exposed.dao.IntIdTable
 
 const val NAME_LENGTH = 8

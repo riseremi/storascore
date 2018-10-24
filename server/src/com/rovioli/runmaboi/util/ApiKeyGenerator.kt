@@ -1,4 +1,4 @@
-package com.rovioli.runmaboi
+package com.rovioli.runmaboi.util
 
 import java.util.*
 import kotlin.streams.asSequence

@@ -4,6 +4,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.rovioli.runmaboi.model.Request
 import com.rovioli.runmaboi.model.Repository
+import com.rovioli.runmaboi.util.Delayer
+import com.rovioli.runmaboi.util.generate
 import io.ktor.application.Application
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call
@@ -20,7 +22,7 @@ import io.ktor.routing.routing
 
 private val gson: Gson = GsonBuilder().create()
 
-class Router(private val repository: Repository) {
+class Router(private val repository: Repository, private val delayer: Delayer) {
     fun start(application: Application) = application.routing {
         post("/save") {
             // TODO: can we use call.receive<Request>() instead?
@@ -56,14 +58,13 @@ class Router(private val repository: Repository) {
     }
 
     private suspend fun register(call: ApplicationCall) {
-        if (canGenerateNewKey()) {
-            val key = generate()
-            repository.register(key)
-            call.respond(HttpStatusCode.OK, key)
+        if (delayer.isDelayed()) {
+            call.respond(HttpStatusCode.Forbidden, "Try to register tomorrow")
         } else {
-            call.respond(HttpStatusCode.RequestTimeout, "Try to register tomorrow")
+            val key = generate()
+            delayer.startDelay()
+            call.respond(HttpStatusCode.OK, key)
+            repository.register(key)
         }
     }
-
-    private fun canGenerateNewKey() = true
 }
