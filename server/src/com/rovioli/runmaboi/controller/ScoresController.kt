@@ -1,4 +1,4 @@
-package com.rovioli.runmaboi
+package com.rovioli.runmaboi.controller
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -22,7 +22,7 @@ import io.ktor.routing.routing
 
 private val gson: Gson = GsonBuilder().create()
 
-class Router(private val repository: Repository, private val delayer: Delayer) {
+class ScoresController(private val repository: Repository, private val delayer: Delayer) {
     fun start(application: Application) = application.routing {
         post("/save") {
             // TODO: can we use call.receive<Request>() instead?

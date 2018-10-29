@@ -1,5 +1,6 @@
 package com.rovioli.runmaboi
 
+import com.rovioli.runmaboi.controller.ScoresController
 import com.rovioli.runmaboi.model.Repository
 import com.rovioli.runmaboi.model.RequestAndScoreDatabaseHelper
 import com.rovioli.runmaboi.util.Delayer
@@ -9,7 +10,7 @@ import io.ktor.features.*
 
 private val helper = RequestAndScoreDatabaseHelper()
 private val repository = Repository(helper)
-private val router = Router(repository, Delayer(2))
+private val router = ScoresController(repository, Delayer(2))
 
 fun Application.main() {
     // This feature sets a Date and Server headers automatically.
