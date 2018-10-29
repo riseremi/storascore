@@ -24,7 +24,7 @@ class ApiController(
 
     private suspend fun register(call: ApplicationCall) {
         if (delayer.isDelayed()) {
-            call.respond(HttpStatusCode.Forbidden, "Try to register tomorrow")
+            call.respond(HttpStatusCode.Forbidden, "Try to register later")
         } else {
             val key = generate()
             delayer.startDelay()
