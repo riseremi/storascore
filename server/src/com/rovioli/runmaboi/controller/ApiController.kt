@@ -17,7 +17,7 @@ class ApiController(
 ) : AppController {
 
     override fun attach(application: Application) = application.routing {
-        get("/registerme") {
+        get("/register") {
             register(call)
         }
     }
