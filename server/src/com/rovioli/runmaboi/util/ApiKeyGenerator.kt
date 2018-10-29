@@ -5,11 +5,11 @@ import kotlin.streams.asSequence
 
 const val API_KEY_LENGTH = 20
 
-private val num    = "1234567890"
-private val source = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz$num"
+private const val NUM    = "1234567890"
+private const val SOURCE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz$NUM"
 
 fun generate() = Random()
-        .ints(API_KEY_LENGTH.toLong(), 0, source.length)
+        .ints(API_KEY_LENGTH.toLong(), 0, SOURCE.length)
         .asSequence()
-        .map(source::get)
+        .map(SOURCE::get)
         .joinToString("")
