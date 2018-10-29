@@ -1,5 +1,7 @@
 package com.rovioli.runmaboi
 
+import com.google.gson.GsonBuilder
+import com.rovioli.runmaboi.controller.ApiController
 import com.rovioli.runmaboi.controller.ScoresController
 import com.rovioli.runmaboi.model.Repository
 import com.rovioli.runmaboi.model.RequestAndScoreDatabaseHelper
@@ -10,7 +12,8 @@ import io.ktor.features.*
 
 private val helper = RequestAndScoreDatabaseHelper()
 private val repository = Repository(helper)
-private val router = ScoresController(repository, Delayer(2))
+private val scoresController = ScoresController(repository, GsonBuilder().create())
+private val apiController = ApiController(repository, Delayer(2))
 
 fun Application.main() {
     // This feature sets a Date and Server headers automatically.
@@ -26,5 +29,6 @@ fun Application.main() {
     install(AutoHeadResponse)
     helper.connect()
     helper.createTables()
-    router.start(this)
+    apiController.attach(this)
+    scoresController.attach(this)
 }
