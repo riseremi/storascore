@@ -20,6 +20,15 @@ class ApiController(
         get("/register") {
             register(call)
         }
+
+        get("/check") {
+            val key = call.parameters["key"]
+            if (key == null || key.isEmpty()) {
+                call.respond(HttpStatusCode.BadRequest, "No key provided")
+            } else {
+                call.respond(HttpStatusCode.OK, "$key is ${if (repository.isRegistered(key)) "not " else ""}registered")
+            }
+        }
     }
 
     private suspend fun register(call: ApplicationCall) {
@@ -27,7 +36,7 @@ class ApiController(
             call.respond(HttpStatusCode.Forbidden, "Try to register later")
         } else {
             val key = generate()
-            delayer.startDelay()
+            delayer.delay()
             call.respond(HttpStatusCode.OK, key)
             repository.register(key)
         }

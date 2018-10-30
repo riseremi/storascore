@@ -6,11 +6,11 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.concurrent.schedule
 
 class Delayer(hours: Long) {
+    private val timer  = Timer()
     private val millis = TimeUnit.HOURS.toMillis(hours)
-    private val timer = Timer()
     private val locked = AtomicBoolean(false)
 
-    fun startDelay() {
+    fun delay() {
         locked.set(true)
         timer.schedule(millis) {
             locked.set(false)

@@ -13,7 +13,7 @@ import io.ktor.features.*
 private val helper = RequestAndScoreDatabaseHelper()
 private val repository = Repository(helper)
 private val scoresController = ScoresController(repository, GsonBuilder().create())
-private val apiController = ApiController(repository, Delayer(2))
+private val apiController = ApiController(repository, Delayer(2)) // TODO take delay time from configuration file
 
 fun Application.main() {
     // This feature sets a Date and Server headers automatically.
