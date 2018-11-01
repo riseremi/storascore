@@ -1,6 +1,6 @@
 package com.rovioli.runmaboi.controller
 
-import com.rovioli.runmaboi.model.Repository
+import com.rovioli.runmaboi.model.AppDao
 import com.rovioli.runmaboi.util.Delayer
 import com.rovioli.runmaboi.util.generate
 import io.ktor.application.Application
@@ -12,7 +12,7 @@ import io.ktor.routing.get
 import io.ktor.routing.routing
 
 class ApiController(
-        private val repository: Repository,
+        private val dao: AppDao<String, String>,
         private val delayer: Delayer
 ) : AppController {
 
@@ -26,7 +26,7 @@ class ApiController(
             if (key == null || key.isEmpty()) {
                 call.respond(HttpStatusCode.BadRequest, "No key provided")
             } else {
-                call.respond(HttpStatusCode.OK, "$key is ${if (repository.isRegistered(key)) "not " else ""}registered")
+                call.respond(HttpStatusCode.OK, "$key is ${if (dao.find(key).isNotEmpty()) "not " else ""}registered")
             }
         }
     }
@@ -38,7 +38,7 @@ class ApiController(
             val key = generate()
             delayer.delay()
             call.respond(HttpStatusCode.OK, key)
-            repository.register(key)
+            dao.insert(key)
         }
     }
 }

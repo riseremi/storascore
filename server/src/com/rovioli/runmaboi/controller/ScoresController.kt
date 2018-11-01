@@ -1,8 +1,8 @@
 package com.rovioli.runmaboi.controller
 
 import com.google.gson.Gson
-import com.rovioli.runmaboi.model.Repository
 import com.rovioli.runmaboi.model.Request
+import com.rovioli.runmaboi.model.ScoreDao
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
@@ -17,9 +17,10 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 
 class ScoresController(
-        private val repository: Repository,
+        private val scoreDao: ScoreDao,
         private val gson: Gson
 ) : AppController {
+    private val highscoresAmount = 5
 
     override fun attach(application: Application) = application.routing {
         post("/save") {
@@ -28,7 +29,7 @@ class ScoresController(
             println("recorod is $record")
             val code = validate(record)
             if (code == Accepted) {
-                repository.putScore(record.score)
+                scoreDao.insert(record.score)
                 call.respond(code, "Adding!\n")
             } else {
                 call.respond(code, "Error!\n")
@@ -36,13 +37,54 @@ class ScoresController(
         }
 
         get("/alien") {
-            call.respondText(repository.getAlien())
+            call.respondText("""
+                       ;;;;;;iiiii;;
+                 i!!!!!!!!!!!!!!!~{:!!!!i
+             i!~!!))!!!!!!!!!!!!!!!!!!!!!!!!
+          i!!!{!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!i
+       i!!)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    '!h!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  '!!`!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!i
+   /!!!~!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+' ':)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  ~:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+..!!!!!\!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ `!!!!!!!!!!!!!!!!!!!!!$!!!!!$!!!!$$$!!!!$!!!!!!!!!!!!!
+ ~ ~!!!)!!!!!$!$$$!!$$$!$!!$$!$!!$!!$$$$$!$!!!!!!!!!!!~
+~~'~{!!!!!!!!!$$!!$$!!!!!$$!!!!$$!!!!!!!!!!$!!!!!!!!:'~
+{-{)!!{!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:!
+`!!!!{!~!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!':!!!
+' {!!!{>)`!!!!!!!I AM AN ALIEN!!!!!!!!!!!!!!!!!!!!!!!)!~..
+:!{!!!{!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -!!:
+    ~:!4~/!!!!!!!!!!!!!!!!!!!~!!!!!!!!!!!!!!!!!!!!!!!!!!
+     :~!!~)(!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      ``~!!).~!!!!!!!!!!!!!{!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:
+            ~  '!\!!!!!!!!!!(!!!!!!!!!!!!!!!!!!!!!!4!!!~:
+           '      '--`!!!!!!!!/:\!!{!!((!~.~!!`?~-      :
+              ``-.    `~!{!`)(>~/ \~                   :
+   .                \  : `{{`. {-   .-~`              /
+    .          !:       .\\?.{\   :`      .          :!
+    \ :         `      -~!{:!!!\ ~     :!`         .>!
+    '  ~          '    '{!!!{!!!t                 ! !!
+     '!  !.            {!!!!!!!!!              .~ {~!
+      ~!!..`~:.       {!!!!!!!!!!:          .{~ :LS{
+       `!!!!!!h:!?!!!!!!!!!!!!!(!!!!::..-~~` {!!!!.
+         4!!!!!!!!!!!!!!!!!!!!!~!{!~!!!!!!!!!!!!'
+          `!!!!!!!!!!!!!!!!!!!!(~!!!!!!!!!!!!!~
+            `!!!!!!!!!!!{\``!!``(!!!!!!!!!~~  .
+             `!!!!!!!!!!!!!!!!!!!!!!!!(!:
+               .!!!!!!!!!!!!!!!!!!!!!\~
+               .`!!!!!!!/`.;;~;;`~!! '
+                 -~!!!!!!!!!!!!!(!!/ .
+                    `!!!!!!!!!!!!!!'
+                      `\!!!!!!!!!~
+                       WAKE UP NEO
+            """)
         }
 
         get("/highscores") {
-            call.respondText(gson.toJson(repository.lastScores()))
+            call.respondText(gson.toJson(scoreDao.findAll(highscoresAmount)))
         }
-
     }
 
     private fun validate(request: Request): HttpStatusCode = with(request) {
