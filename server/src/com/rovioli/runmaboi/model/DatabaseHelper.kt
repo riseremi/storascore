@@ -3,10 +3,7 @@ package com.rovioli.runmaboi.model
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
-/**
- * Pretty ugly helper, but enough for its purpose.
- */
-class RequestAndScoreDatabaseHelper {
+class DatabaseHelper {
 
     lateinit var database: Database
         private set
@@ -20,8 +17,7 @@ class RequestAndScoreDatabaseHelper {
         )
     }
 
-    fun createTables() = transaction(database) {
-        SchemaUtils.create(Clients)
-        SchemaUtils.create(Scores)
+    fun createTables(vararg tables: Table) = transaction(database) {
+        tables.forEach { SchemaUtils.create(it) }
     }
 }

@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class ScoreDao(private val helper: RequestAndScoreDatabaseHelper) : AppDao<String, Score> {
+class ScoreDao(private val helper: DatabaseHelper) : AppDao<String, Score> {
 
     override fun findAll(amount: Int) = transaction {
         val scores = mutableListOf<Score>()

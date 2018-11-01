@@ -3,15 +3,13 @@ package com.rovioli.runmaboi
 import com.google.gson.GsonBuilder
 import com.rovioli.runmaboi.controller.ApiController
 import com.rovioli.runmaboi.controller.ScoresController
-import com.rovioli.runmaboi.model.ApiDao
-import com.rovioli.runmaboi.model.RequestAndScoreDatabaseHelper
-import com.rovioli.runmaboi.model.ScoreDao
+import com.rovioli.runmaboi.model.*
 import com.rovioli.runmaboi.util.Delayer
 import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.features.*
 
-private val helper = RequestAndScoreDatabaseHelper()
+private val helper = DatabaseHelper()
 private val scoresController = ScoresController(ScoreDao(helper), GsonBuilder().create())
 private val apiController = ApiController(ApiDao(helper), Delayer(2)) // TODO take delay time from configuration file
 
@@ -28,7 +26,7 @@ fun Application.main() {
     // without actually getting the payload to be more efficient about resources)
     install(AutoHeadResponse)
     helper.connect()
-    helper.createTables()
+    helper.createTables(Clients, Scores)
     apiController.attach(this)
     scoresController.attach(this)
 }

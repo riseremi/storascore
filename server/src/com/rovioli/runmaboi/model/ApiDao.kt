@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.lang.UnsupportedOperationException
 
-class ApiDao(private val helper: RequestAndScoreDatabaseHelper) : AppDao<String, String> {
+class ApiDao(private val helper: DatabaseHelper) : AppDao<String, String> {
 
     override fun insert(data: String) = transaction {
         Clients.insertAndGetId { it[apiKey] = data }.value
