@@ -19,7 +19,7 @@ import io.ktor.routing.routing
 class ScoresController(
         private val scoreDao: ScoreDao,
         private val gson: Gson
-) : AppController {
+) : KtorController {
     private val highscoresAmount = 5
 
     override fun attach(application: Application) = application.routing {

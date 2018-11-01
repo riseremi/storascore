@@ -14,7 +14,7 @@ import io.ktor.routing.routing
 class ApiController(
         private val dao: AppDao<String, String>,
         private val delayer: Delayer
-) : AppController {
+) : KtorController {
 
     override fun attach(application: Application) = application.routing {
         get("/register") {

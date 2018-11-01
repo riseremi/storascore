@@ -3,6 +3,6 @@ package com.rovioli.runmaboi.controller
 import io.ktor.application.Application
 import io.ktor.routing.Routing
 
-interface AppController {
+interface KtorController {
     fun attach(application: Application) : Routing
 }
