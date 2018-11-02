@@ -1,4 +1,4 @@
-package com.rovioli.runmaboi.model
+package com.rovioli.storascore.model
 
 data class Request(val apiKey: String?, val score: Score)
 

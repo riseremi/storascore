@@ -1,8 +1,8 @@
-package com.rovioli.runmaboi.controller
+package com.rovioli.storascore.controller
 
-import com.rovioli.runmaboi.model.AppDao
-import com.rovioli.runmaboi.util.Delayer
-import com.rovioli.runmaboi.util.generate
+import com.rovioli.storascore.model.AppDao
+import com.rovioli.storascore.util.Delayer
+import com.rovioli.storascore.util.generate
 import io.ktor.application.Application
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call

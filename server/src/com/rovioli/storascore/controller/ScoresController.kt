@@ -1,8 +1,8 @@
-package com.rovioli.runmaboi.controller
+package com.rovioli.storascore.controller
 
 import com.google.gson.Gson
-import com.rovioli.runmaboi.model.Request
-import com.rovioli.runmaboi.model.ScoreDao
+import com.rovioli.storascore.model.Request
+import com.rovioli.storascore.model.ScoreDao
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode

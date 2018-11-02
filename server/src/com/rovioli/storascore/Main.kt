@@ -1,10 +1,10 @@
-package com.rovioli.runmaboi
+package com.rovioli.storascore
 
 import com.google.gson.GsonBuilder
-import com.rovioli.runmaboi.controller.ApiController
-import com.rovioli.runmaboi.controller.ScoresController
-import com.rovioli.runmaboi.model.*
-import com.rovioli.runmaboi.util.Delayer
+import com.rovioli.storascore.controller.ApiController
+import com.rovioli.storascore.controller.ScoresController
+import com.rovioli.storascore.model.*
+import com.rovioli.storascore.util.Delayer
 import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.features.*

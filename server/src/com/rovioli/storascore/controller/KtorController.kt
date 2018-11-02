@@ -1,4 +1,4 @@
-package com.rovioli.runmaboi.controller
+package com.rovioli.storascore.controller
 
 import io.ktor.application.Application
 import io.ktor.routing.Routing

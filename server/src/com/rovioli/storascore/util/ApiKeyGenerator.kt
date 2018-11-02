@@ -1,4 +1,4 @@
-package com.rovioli.runmaboi.util
+package com.rovioli.storascore.util
 
 import java.util.*
 import kotlin.streams.asSequence

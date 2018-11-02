@@ -1,4 +1,4 @@
-package com.rovioli.runmaboi.model
+package com.rovioli.storascore.model
 
 interface AppDao<Key, Type> {
     fun insert(data: Type): Int

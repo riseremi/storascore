@@ -1,4 +1,4 @@
-package com.rovioli.runmaboi.model
+package com.rovioli.storascore.model
 
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.select

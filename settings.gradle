@@ -1,3 +1,3 @@
-rootProject.name = 'runmaboi'
+rootProject.name = 'storascore'
 include 'server'
 
