@@ -1,5 +1,5 @@
 package com.rovioli.storascore.model
 
-data class Request(val apiKey: String?, val score: Score)
+data class Request(val apiKey: String?, val score: Data)
 
-data class Score(val name: String, val score: Int)
+data class Data(val name: String, val score: Int)
