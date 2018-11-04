@@ -26,7 +26,7 @@ class ApiController(
             if (key == null || key.isEmpty()) {
                 call.respond(HttpStatusCode.BadRequest, "No key provided")
             } else {
-                call.respond(HttpStatusCode.OK, "$key is ${if (dao.find(key).isNotEmpty()) "not " else ""}registered")
+                call.respond(HttpStatusCode.OK, "$key is ${if (dao.find(key).isEmpty()) "not " else ""}registered")
             }
         }
     }
