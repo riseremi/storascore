@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 // TODO: find a way to return lists without creating a mutableList
 class ScoreDao(private val helper: DatabaseHelper) : AppDao<String, Data> {
 
-    override fun findAll(amount: Int) = transaction {
+    override fun findAll(amount: Int) = transaction(helper.database) {
         val scores = mutableListOf<Data>()
         Scores.selectAll()
                 .fetchSize(amount)
@@ -17,7 +17,7 @@ class ScoreDao(private val helper: DatabaseHelper) : AppDao<String, Data> {
         scores
     }
 
-    override fun insert(data: Data) = transaction {
+    override fun insert(data: Data) = transaction(helper.database) {
         Score.new {
             name  = data.name
             score = data.score
