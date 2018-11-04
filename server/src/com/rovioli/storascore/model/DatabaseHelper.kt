@@ -9,11 +9,12 @@ class DatabaseHelper {
         private set
 
     fun connect() {
+        // TODO: get user and password from config, use non-root user
         database = Database.connect(
-                url      = "jdbc:h2:mem:test",
+                url      = "jdbc:h2:mem:storascore;DB_CLOSE_DELAY=-1;",
                 driver   = "org.h2.Driver",
-                user     = "get_from_config",
-                password = "get_from_config"
+                user     = "root",
+                password = ""
         )
     }
 
