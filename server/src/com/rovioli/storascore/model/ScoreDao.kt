@@ -1,10 +1,9 @@
 package com.rovioli.storascore.model
 
-import org.jetbrains.exposed.sql.insertAndGetId
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
+// TODO: find a way to return lists without creating a mutableList
 class ScoreDao(private val helper: DatabaseHelper) : AppDao<String, Data> {
 
     override fun findAll(amount: Int) = transaction {
@@ -19,14 +18,19 @@ class ScoreDao(private val helper: DatabaseHelper) : AppDao<String, Data> {
     }
 
     override fun insert(data: Data) = transaction {
-        Scores.insertAndGetId {
-            it[name] = data.name
-            it[score] = data.score
-        }.value
+        Score.new {
+            name  = data.name
+            score = data.score
+        }
     }
 
     override fun find(key: String) = transaction(helper.database) {
-        Scores.select { Scores.name eq key } // TODO: return Data object from DB!
-        Data("Remi", 1488)
+        val scores = mutableListOf<Data>()
+        Score.find {
+            Scores.name eq key
+        }.forEach {
+            scores.add(Data(it.name, it.score))
+        }
+        scores
     }
 }

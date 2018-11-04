@@ -12,7 +12,13 @@ class ApiDao(private val helper: DatabaseHelper) : AppDao<String, String> {
     }
 
     override fun find(key: String) = transaction {
-        Clients.select { Clients.apiKey eq key }.toString()
+        val list = mutableListOf<String>()
+        Clients.select {
+            Clients.apiKey eq key
+        }.forEach {
+            list.add(it[Clients.apiKey])
+        }
+        list
     }
 
     override fun findAll(amount: Int): List<String> {
